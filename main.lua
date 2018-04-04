@@ -28,6 +28,10 @@ local lives = 3
 local heart1
 local heart2
 local heart3
+--score
+local scoreText
+local scoreObject
+local score = 0
 
 --create local variables
 local questionObject
@@ -50,6 +54,8 @@ local correctSoundChannel
 
 local deadSound = audio.loadSound("Sounds/dead.mp3")
 local deadSoundChannel
+
+local win
 ------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 ------------------------------------------------------------------------
@@ -140,6 +146,18 @@ local function UpdateTime()
         gameOver.y = display.contentHeight/2
 
         deadSoundChannel = audio.play(deadSound)
+
+        elseif (score == 4) then
+        			win = display.newImageRect("Images/winner.png",  1200, 1000)
+		win.x = display.contentWidth/2
+        win.y = display.contentHeight/2
+        	
+        	numericField.isVisible = false
+        	scoreObject.isVisible = false
+        	questionObject.isVisible = false
+        	incorrectObject.isVisible = false
+        	correctObject.isVisible = false
+
 	end
 
 	--CALL THE FUNCTION TO ASK A NEW QUESTION
@@ -151,8 +169,6 @@ local function StartTimer()
 	-- create a countdown timer that loops indefinetly
 	countDownTimer = timer.performWithDelay(1000, UpdateTime, 0)
 end
-
-
 
 local function HideCorrect()
 	correctObject.isVisible = false
@@ -226,7 +242,11 @@ end
 ------------------------------------------------------------------------
 --OBJECT CREATION
 ------------------------------------------------------------------------
-
+scoreObject  = display.newText("score", display.contentWidth*1/5, display.contentHeight*1/8, nil, 50)
+scoreObject:setTextColor(0/255, 0/255, 255/255)
+scoreObject.isVisible = true
+--
+clockText:setTextColor(1, 1, 0)
 
 --displays a question and sets the colour
 questionObject = display.newText( "", display.contentWidth/3, display.contentHeight/2, nil, 40 )
