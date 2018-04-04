@@ -7,7 +7,7 @@
 display.setStatusBar(display.HiddenStatusBar)
 
 -- sets the background colour
-display.setDefault("background", 0/255, 20/255, 100/255)
+display.setDefault("background", 255/255, 255/255, 255/255)
 
 ------------------------------------------------------------------------
 --LOCAL VARIABLES
@@ -17,18 +17,17 @@ display.setDefault("background", 0/255, 20/255, 100/255)
 --------------------------------------------------------------------
 
 --variables for the timer
-local totalSeconds = 6
-local secondsLeft = 5
+local totalSeconds = 11
+local secondsLeft = 10
 local clockText
 local countDownTimer
 
 -- keeps track of the number of lives
-local lives = 4
+local lives = 3
 
 local heart1
 local heart2
 local heart3
-local heart4
 
 --create local variables
 local questionObject
@@ -94,7 +93,7 @@ local function UpdateTime()
 	--display the number of seconds left in the clock object
 	clockText.text = secondsLeft .. ""
 
-	clockText:setTextColor(150/255, 255/255, 0/255)
+	clockText:setTextColor(255/255, 0/255, 0/255)
 	clockText.isVisible = true
 
 	-- the timer has reached 0
@@ -109,35 +108,30 @@ local function UpdateTime()
 
 		--IF THERE ARE NO LIVES LEFT, PLAY A LOSE SOUND, SHOW A YOU LOSE IMAGE
 		--AND CANCEL THE TIMER   REMOVE THE 3RD HEART BY MAKING IT INVISIBLE
-	elseif (lives == 4) then
-		heart1.isVisible = true
-		heart2.isVisible = true
-		heart3.isVisible = true
-		heart4.isVisible = true
 
 	elseif (lives == 3) then
 		heart1.isVisible = true
 		heart2.isVisible = true
 		heart3.isVisible = true
-		heart4.isVisible = false
+		
 
 	elseif (lives == 2) then
 		heart1.isVisible = true
 		heart2.isVisible = true
 		heart3.isVisible = false
-		heart4.isVisible = false
+		
 
 	elseif (lives == 1) then
 		heart1.isVisible = true
 		heart2.isVisible = false
 		heart3.isVisible = false
-		heart4.isVisible = false
+		
 
 	elseif (lives == 0) then
 		heart1.isVisible = false
 		heart2.isVisible = false
 		heart3.isVisible = false
-		heart4.isVisible = false
+		
 		numericField.isVisible = false
 
 
@@ -236,7 +230,7 @@ end
 
 --displays a question and sets the colour
 questionObject = display.newText( "", display.contentWidth/3, display.contentHeight/2, nil, 40 )
-questionObject:setTextColor(255/255, 255/255, 0/255)
+questionObject:setTextColor(0/255, 200/255, 255/255)
 
 --create the correct text object and make it invisible
 correctObject = display.newText( "Correct!", display.contentWidth/2, display.contentHeight/3, nil, 50 )
@@ -245,7 +239,7 @@ correctObject.isVisible = false
 
 --create the incorrect text object and make it invisible
 incorrectObject = display.newText( "Incorrect!", display.contentWidth/2, display.contentHeight*2/3, nil, 50 )
-incorrectObject:setTextColor(255/255, 0/255, 0/255)
+incorrectObject:setTextColor(0/255, 0/255, 255/255)
 incorrectObject.isVisible = false
 
 --create numeric field
@@ -269,9 +263,6 @@ heart3 = display.newImageRect("Images/heart.png", 100, 100)
 heart3.x = display.contentWidth * 5 / 8
 heart3.y = display.contentHeight * 1 / 7
 
-heart4 = display.newImageRect("Images/heart.png", 100, 100)
-heart4.x = display.contentWidth * 4 / 8
-heart4.y = display.contentHeight * 1 / 7
 
 clockText = display.newText(secondsLeft, display.contentWidth*1/5, display.contentHeight*1/8, nil, 50)
 clockText:setTextColor(1, 1, 0)
