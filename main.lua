@@ -29,7 +29,6 @@ local heart1
 local heart2
 local heart3
 --score
-local scoreText
 local scoreObject
 local score = 0
 
@@ -61,34 +60,47 @@ local win
 ------------------------------------------------------------------------
 local function AskQuestion()
 	--generate 2 random numbers between a max. and a min. number
-	randomNumber1 = math.random(0, 15)
-	randomNumber2 = math.random(0, 15)
+	randomNumber1 = math.random(1, 20)
+	randomNumber2 = math.random(1, 20)
+	
+	randomNumber3 = math.random(1, 10)
+	randomNumber4 = math.random(1, 10)
+	
+	randomNumber5 = math.random(0, 100)
+	randomNumber6 = math.random(0, 5)
 
 	-- generates a random number representing a random operator (+,-,*)
-	randomOperator = math.random(1,3)
+	randomOperator = math.random(1,4)
 
 	-- subtraction
 	if (randomOperator == 1) then
 		-- determines the correct answer by subtracting randomNumber1 from randomNumber2
-		correctAnswer = randomNumber1 - randomNumber2 
+		correctAnswer = randomNumber1 - randomNumber2
 		-- generates a subtraction question using 2 random numbers
 		questionObject.text = randomNumber1 .. " - " .. randomNumber2 .. " = "
 
 	-- multiplication
 	elseif (randomOperator == 2) then
 		-- determines the correct answer by multiplying randomNumber1 with randomNumber2
-		correctAnswer = randomNumber1 * randomNumber2
-		-- generates a multiplication question using the 
-		questionObject.text = randomNumber1 .. " * " .. randomNumber2 .. " = "
+		correctAnswer = randomNumber3 * randomNumber4
+		-- generates a multiplication question using 2 random numbers
+		questionObject.text = randomNumber3 .. " * " .. randomNumber4 .. " = "
 
 	-- addition
 	elseif (randomOperator == 3) then
-		-- 
+		-- determines the correct answer by adding randomNumber1 with randomNumber2
 		correctAnswer = randomNumber1 + randomNumber2
-		-- 
+		-- generates an addition question using 2 random numbers
 		questionObject.text = randomNumber1 .. " + " .. randomNumber2 .. " = "
-	end
+	
 
+		-- division
+	elseif (randomOperator == 4) then
+		-- determines the correct answer by dividing randomNumber1 with randomNumber2
+		correctAnswer = randomNumber5 / randomNumber6
+		-- generates an addition question using 2 random numbers
+		questionObject.text = randomNumber5 .. " / " .. randomNumber6 .. " = "
+	end
 end
 
 local function UpdateTime()
@@ -140,6 +152,8 @@ local function UpdateTime()
 		
 		numericField.isVisible = false
 
+		scoreObject.isVisible = false
+
 
 		gameOver = display.newImageRect("Images/gameOver.png",  1200, 1000)
 		gameOver.x = display.contentWidth/2
@@ -147,11 +161,9 @@ local function UpdateTime()
 
         deadSoundChannel = audio.play(deadSound)
 
-        elseif (score == 4) then
-        			win = display.newImageRect("Images/winner.png",  1200, 1000)
-		win.x = display.contentWidth/2
-        win.y = display.contentHeight/2
-        	
+        elseif (score == 5) then
+
+            win.isVisible = true
         	numericField.isVisible = false
         	scoreObject.isVisible = false
         	questionObject.isVisible = false
@@ -201,9 +213,12 @@ local function NumericFieldListener( event )
 		--if the users answer and the correct answer are the same:
 		if (userAnswer == correctAnswer) then
 			correctObject.isVisible = true
-			UpdateTime()
 			timer.performWithDelay(2000, HideCorrect)
 			event.target.text = ""
+			--update score
+			score = score + 1
+			scoreObject.text = score
+			secondsLeft = totalSeconds
 			--play correct sound
 			correctSoundChannel = audio.play(correctSound)
 		-- if the user answers inncorrectly, then they lose a life
@@ -228,6 +243,9 @@ local function NumericFieldListener( event )
 			-- erases the user's typed answer
 			event.target.text = ""
 
+			--update timer
+			secondsLeft = totalSeconds
+
 
 		
 		end
@@ -242,11 +260,9 @@ end
 ------------------------------------------------------------------------
 --OBJECT CREATION
 ------------------------------------------------------------------------
-scoreObject  = display.newText("score", display.contentWidth*1/5, display.contentHeight*1/8, nil, 50)
-scoreObject:setTextColor(0/255, 0/255, 255/255)
+scoreObject = display.newText(score, display.contentWidth/1.9, display.contentHeight*2/3, Arial, 70)
+scoreObject:setTextColor(0/255, 255/255, 0/255)
 scoreObject.isVisible = true
---
-clockText:setTextColor(1, 1, 0)
 
 --displays a question and sets the colour
 questionObject = display.newText( "", display.contentWidth/3, display.contentHeight/2, nil, 40 )
@@ -269,6 +285,11 @@ numericField.inputType = "number"
 --add the event listener for the numeric field
 numericField:addEventListener( "userInput", NumericFieldListener )
 
+--create win screen
+win = display.newImageRect("Images/winner.png",  1100, 1100)
+win.x = 500
+win.y = 400
+win.isVisible = false
 
 --create the lives to display on the screen
 heart1 = display.newImageRect("Images/heart.png", 100, 100)
