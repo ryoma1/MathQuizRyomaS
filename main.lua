@@ -165,15 +165,7 @@ local function UpdateTime()
 
         deadSoundChannel = audio.play(deadSound)
 
-    elseif (score == 5) then
 
-     win.isVisible = true
-     numericField.isVisible = false
-     scoreObject.isVisible = false
-     questionObject.isVisible = false
-     incorrectObject.isVisible = false
-     correctObject.isVisible = false
-     timer.stop = true
 
        
 
@@ -228,6 +220,21 @@ local function NumericFieldListener( event )
 			secondsLeft = totalSeconds
 			--play correct sound
 			correctSoundChannel = audio.play(correctSound)
+
+			if (score == 5) then
+				win.isVisible = true
+				numericField.isVisible = false
+				clockText.isVisible = false
+				scoreObject.isVisible = false
+				questionObject.isVisible = false
+				incorrectObject.isVisible = false
+				correctObject.isVisible = false
+				heart1.isVisible = false
+				heart2.isVisible = false
+				heart3.isVisible = false
+			end
+     		
+     
 		-- if the user answers inncorrectly, then they lose a life
 		elseif (userAnswer ~= correctAnswer) then
 			-- the incorrect text appears
