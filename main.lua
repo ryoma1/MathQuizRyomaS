@@ -1,7 +1,8 @@
--- Title: LivesAndTimers
+-- Title: Math Quiz
 -- Name: Ryoma Scott
 -- Course: ICS2O/3C
--- This program
+-- This program displays a math question that must be answered before the timer ends.
+--The user has 3 lives.
 
 ----hide the status bar
 display.setStatusBar(display.HiddenStatusBar)
@@ -60,14 +61,14 @@ local win
 ------------------------------------------------------------------------
 local function AskQuestion()
 	--generate 2 random numbers between a max. and a min. number
-	randomNumber1 = math.random(1, 20)
-	randomNumber2 = math.random(1, 20)
+	randomNumber1 = math.random(0, 20)
+	randomNumber2 = math.random(0, 20)
 	
-	randomNumber3 = math.random(1, 10)
-	randomNumber4 = math.random(1, 10)
+	randomNumber3 = math.random(0, 10)
+	randomNumber4 = math.random(0, 10)
 	
-	randomNumber5 = math.random(0, 100)
-	randomNumber6 = math.random(0, 5)
+	randomNumber5 = math.random(1, 100)
+	randomNumber6 = math.random(1, 100)
 
 	-- generates a random number representing a random operator (+,-,*)
 	randomOperator = math.random(1,4)
@@ -78,13 +79,17 @@ local function AskQuestion()
 		correctAnswer = randomNumber1 - randomNumber2
 		-- generates a subtraction question using 2 random numbers
 		questionObject.text = randomNumber1 .. " - " .. randomNumber2 .. " = "
+			if (correctAnswer <0) then
+			correctAnswer = randomNumber2 - randomNumber1
+			questionObject.text = randomNumber2 .. " - " .. randomNumber1 .. " = " 
+		end
 
 	-- multiplication
 	elseif (randomOperator == 2) then
 		-- determines the correct answer by multiplying randomNumber1 with randomNumber2
 		correctAnswer = randomNumber3 * randomNumber4
 		-- generates a multiplication question using 2 random numbers
-		questionObject.text = randomNumber3 .. " * " .. randomNumber4 .. " = "
+		questionObject.text = randomNumber3 .. " X " .. randomNumber4 .. " = "
 
 	-- addition
 	elseif (randomOperator == 3) then
@@ -96,10 +101,10 @@ local function AskQuestion()
 
 		-- division
 	elseif (randomOperator == 4) then
-		-- determines the correct answer by dividing randomNumber1 with randomNumber2
-		correctAnswer = randomNumber5 / randomNumber6
-		-- generates an addition question using 2 random numbers
-		questionObject.text = randomNumber5 .. " / " .. randomNumber6 .. " = "
+		correctAnswer = randomNumber3 * randomNumber4 
+		randomNumber3 = correctAnswer
+		correctAnswer = randomNumber3 / randomNumber4
+		questionObject.text = randomNumber3 .. " / " .. randomNumber4 .. " = "  
 	end
 end
 
@@ -154,12 +159,21 @@ local function UpdateTime()
 
 		scoreObject.isVisible = false
 
-
 		gameOver = display.newImageRect("Images/gameOver.png",  1200, 1000)
 		gameOver.x = display.contentWidth/2
         gameOver.y = display.contentHeight/2
 
         deadSoundChannel = audio.play(deadSound)
+
+    elseif (score == 5) then
+
+     win.isVisible = true
+     numericField.isVisible = false
+     scoreObject.isVisible = false
+     questionObject.isVisible = false
+     incorrectObject.isVisible = false
+     correctObject.isVisible = false
+     timer.stop = true
 
        
 
@@ -239,14 +253,7 @@ local function NumericFieldListener( event )
 			--update timer
 			secondsLeft = totalSeconds
 
-		elseif (score == 5) then
-
-            win.isVisible = true
-        	numericField.isVisible = false
-        	scoreObject.isVisible = false
-        	questionObject.isVisible = false
-        	incorrectObject.isVisible = false
-        	correctObject.isVisible = false
+		
 
 
 
