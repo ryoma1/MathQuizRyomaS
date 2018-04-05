@@ -161,14 +161,7 @@ local function UpdateTime()
 
         deadSoundChannel = audio.play(deadSound)
 
-        elseif (score == 5) then
-
-            win.isVisible = true
-        	numericField.isVisible = false
-        	scoreObject.isVisible = false
-        	questionObject.isVisible = false
-        	incorrectObject.isVisible = false
-        	correctObject.isVisible = false
+       
 
 	end
 
@@ -246,6 +239,16 @@ local function NumericFieldListener( event )
 			--update timer
 			secondsLeft = totalSeconds
 
+		elseif (score == 5) then
+
+            win.isVisible = true
+        	numericField.isVisible = false
+        	scoreObject.isVisible = false
+        	questionObject.isVisible = false
+        	incorrectObject.isVisible = false
+        	correctObject.isVisible = false
+
+
 
 		
 		end
@@ -274,7 +277,7 @@ correctObject:setTextColor(0/255, 255/255, 0/255)
 correctObject.isVisible = false
 
 --create the incorrect text object and make it invisible
-incorrectObject = display.newText( "Incorrect!", display.contentWidth/2, display.contentHeight*2/3, nil, 50 )
+incorrectObject = display.newText( "Incorrect", display.contentWidth/2, display.contentHeight*2/3, nil, 50 )
 incorrectObject:setTextColor(0/255, 0/255, 255/255)
 incorrectObject.isVisible = false
 
